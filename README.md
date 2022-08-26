@@ -8,8 +8,9 @@ This is a small proof of concept to test Azure RBAC across resource groups.
 The managed identity in the VM should be able to access the key vault TestASecrets but not TestAForbiddenSecrets
 
 ### Current behaviour
-The VM cannot access the vaults
+The VM cannot access the vaults.
 
+It works if I go the "Azure Portal" => "KeyVaults" => "TestASecrets" => "Access Control (IAM)" => "Add role assignment" and manually adds an assignment of "TestBRole" to "TestBIdentity", but I don't know how to do that kind of "roleAssignment" with ARM templates.
 
 
 ## Usage
