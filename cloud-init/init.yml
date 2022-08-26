@@ -1,0 +1,14 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - net-tools
+write_files:
+  - owner: root:root
+    path: /root/test.sh
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      az keyvault secret show --name "secret" --vault-name $1 --query "value" --output tsv
+runcmd: 
+  - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  - az login --identity
