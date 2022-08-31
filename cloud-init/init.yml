@@ -6,7 +6,7 @@ write_files:
 
   - path: /etc/environment
     content: |
-      FOO="BAR3"
+      FOO1="BAR3"
     append: true
 
   - owner: root:root
@@ -15,7 +15,29 @@ write_files:
     content: |
       #!/bin/bash
       az keyvault secret show --name "secret" --vault-name $1 --query "value" --output tsv
+
+  - owner: root:root
+    path: /etc/init.d/test
+    permissions: 0755
+    content: |
+      #!/bin/bash
+      ### BEGIN INIT INFO
+      # Provides:          Join the Swarm
+      # Default-Start:     4
+      # Default-Stop:      0 6
+      # Description:       Join the Swarm
+      ### END INIT INFO
+      
+      echo $FOO1 >> /var/log/test.log
+      echo $FOO3 >> /var/log/test.log
+        
+      exit 0;
+
 runcmd: 
   - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
   - az login --identity
-  - echo "FOO=\"BAR2\"" >> /etc/environment
+  - echo "FOO2=\"BAR2\"" >> /etc/environment
+# at this point, env vars are not present
+  - update-rc.d test defaults 91
+  - update-rc.d test enable
+  - service test start
