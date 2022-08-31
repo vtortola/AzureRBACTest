@@ -8,6 +8,9 @@
       },
       "cloudInit": {
         "type": "string"
+      },
+      "userData": {
+        "type": "string"
       }
   },
   "variables": {
@@ -182,6 +185,7 @@
         "hardwareProfile": {
           "vmSize": "Standard_B1s"
         },
+        "userData" : "[parameters('userData')]",
         "osProfile": {
           "computerName": "[variables('computerName')]",
           "adminUsername": "azureuser",

@@ -3,6 +3,12 @@ package_upgrade: true
 packages:
   - net-tools
 write_files:
+
+  - path: /etc/environment
+    content: |
+      FOO="BAR3"
+    append: true
+
   - owner: root:root
     path: /root/test.sh
     permissions: '0755'
@@ -12,3 +18,4 @@ write_files:
 runcmd: 
   - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
   - az login --identity
+  - echo "FOO=\"BAR2\"" >> /etc/environment
