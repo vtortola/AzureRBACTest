@@ -23,7 +23,7 @@ testB_down:
 	az group delete --name TestB --yes
 
 server:
-	az deployment group create --resource-group TestB --name TestBServer --template-file ./templates/server.json --parameters cloudInit="`base64 ./cloud-init/init.yml`" userData="`base64 ./cloud-init/userData.sh`"
+	az deployment group create --resource-group TestB --name TestBServer --template-file ./templates/server.json --parameters cloudInit="`base64 ./cloud-init/init.yml`"
 	az vm run-command invoke --resource-group TestB --name TestBServer --command-id RunShellScript --scripts 'cloud-init status --wait' --query "value" --output tsv
 
 server-relogin:

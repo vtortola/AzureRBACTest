@@ -8,9 +8,6 @@
       },
       "cloudInit": {
         "type": "string"
-      },
-      "userData": {
-        "type": "string"
       }
   },
   "variables": {
@@ -38,7 +35,7 @@
               "description": "It is using wrong port. Change port from the portal if want to use SSH",
               "protocol": "Tcp",
               "sourcePortRange": "*",
-              "destinationPortRange": "23",
+              "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
@@ -167,6 +164,24 @@
       }
     },
     {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2022-03-01",
+      "name": "[concat(variables('computerName'), '/config')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('computerName'))]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.1",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "commandToExecute": "echo FOO3=BAR27 >> /etc/environment"
+          }
+      }
+    },
+    {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2021-11-01",
       "name": "[variables('computerName')]",
@@ -185,7 +200,6 @@
         "hardwareProfile": {
           "vmSize": "Standard_B1s"
         },
-        "userData" : "[parameters('userData')]",
         "osProfile": {
           "computerName": "[variables('computerName')]",
           "adminUsername": "azureuser",
