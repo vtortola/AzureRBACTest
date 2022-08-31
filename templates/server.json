@@ -167,6 +167,24 @@
       }
     },
     {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2022-03-01",
+      "name": "[concat(variables('computerName'), '/config')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('computerName'))]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.1",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "commandToExecute": "echo FOO=BAR27 >> /etc/environment"
+          }
+      }
+    },
+    {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2021-11-01",
       "name": "[variables('computerName')]",
